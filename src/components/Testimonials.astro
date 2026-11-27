@@ -1,0 +1,271 @@
+---
+import { Picture } from 'astro:assets';
+import edward from '../assets/edward-newgate.png';
+import skadar from '../assets/skadar.png';
+import yucatan from '../assets/yucatan-ruins.png';
+
+const slides = [
+  {
+    quote:
+      'I planned two weeks in Raja Ampat in a single evening. Every boat, guide and homestay was exactly as described, and the reef briefings were the best I have had anywhere.',
+    name: 'Edward Newgate',
+    role: 'Founder, Circle',
+    image: edward,
+    alt: 'Portrait of Edward Newgate holding a camera in the mountains',
+  },
+  {
+    quote:
+      'We kayaked Lake Skadar at sunrise with a local guide who knew every heron by name. The finder matched us to a trip that suited our kids and our pace.',
+    name: 'Nami Kovač',
+    role: 'Product designer, Ljubljana',
+    image: skadar,
+    alt: 'Lake Skadar wetlands photographed on Nami’s kayaking trip',
+  },
+  {
+    quote:
+      'The Yucatán itinerary skipped the crowds and took us deep into the jungle ruins. Practical notes, honest grades, no surprises on the trail.',
+    name: 'Nico Robin',
+    role: 'Archaeologist, Seville',
+    image: yucatan,
+    alt: 'Stepped Maya pyramid photographed on Nico’s Yucatán trip',
+  },
+];
+---
+
+<section
+  class="testimonials"
+  aria-roledescription="carousel"
+  aria-labelledby="testimonials-title"
+  data-carousel
+>
+  <div class="wrap testimonials__grid">
+    <div class="testimonials__copy">
+      <h2 id="testimonials-title">Testimonials</h2>
+      <p class="testimonials__stars" role="img" aria-label="Rated 5 out of 5">
+        {Array.from({ length: 5 }, () => (
+          <span aria-hidden="true">★</span>
+        ))}
+      </p>
+      <div class="testimonials__quotes" aria-live="polite">
+        {slides.map((slide, i) => (
+          <figure
+            class="testimonials__slide"
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${i + 1} of ${slides.length}`}
+            data-slide
+            hidden={i !== 0}
+          >
+            <blockquote>
+              <p>“{slide.quote}”</p>
+            </blockquote>
+            <figcaption>
+              <strong>{slide.name}</strong>
+              <span>{slide.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+
+    <div class="testimonials__media">
+      <div class="testimonials__photos">
+        {slides.map((slide, i) => (
+          <Picture
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            src={slide.image}
+            alt={slide.alt}
+            widths={[420, 640, 828]}
+            sizes="(max-width: 880px) 100vw, 50vw"
+            class:list={['testimonials__photo', { 'is-active': i === 0 }]}
+            aria-hidden={i === 0 ? undefined : 'true'}
+            data-photo
+          />
+        ))}
+      </div>
+      <div class="testimonials__controls">
+        <button class="testimonials__arrow" type="button" data-prev>
+          <span class="visually-hidden">Previous testimonial</span>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M16 10H4m5-5-5 5 5 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </button>
+        <button class="testimonials__arrow" type="button" data-next>
+          <span class="visually-hidden">Next testimonial</span>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path
+              d="M4 10h12m-5-5 5 5-5 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-carousel]');
+
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const photos = [...root.querySelectorAll<HTMLElement>('[data-photo]')];
+    let index = 0;
+
+    const show = (next: number) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => (slide.hidden = i !== index));
+      photos.forEach((photo, i) => {
+        photo.classList.toggle('is-active', i === index);
+        if (i === index) photo.removeAttribute('aria-hidden');
+        else photo.setAttribute('aria-hidden', 'true');
+      });
+    };
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => show(index - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => show(index + 1));
+  }
+</script>
+
+<style>
+  .testimonials {
+    padding-block: var(--section);
+  }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(2.5rem, 7vw, 7rem);
+  }
+
+  .testimonials__copy h2 {
+    font-size: var(--step-3);
+    font-weight: 750;
+  }
+
+  .testimonials__stars {
+    display: flex;
+    gap: 0.2rem;
+    margin-block: 1.5rem 1.75rem;
+    color: var(--orange);
+    font-size: 1.375rem;
+    letter-spacing: 0;
+  }
+
+  .testimonials__quotes {
+    display: grid;
+  }
+
+  .testimonials__slide {
+    grid-area: 1 / 1;
+    animation: quote-in 0.5s var(--ease);
+  }
+
+  .testimonials__slide blockquote {
+    margin-bottom: 2rem;
+    font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.015em;
+  }
+
+  .testimonials__slide figcaption {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .testimonials__slide figcaption span {
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+  }
+
+  .testimonials__media {
+    position: relative;
+  }
+
+  .testimonials__photos {
+    display: grid;
+    overflow: hidden;
+    aspect-ratio: 828 / 640;
+    border-radius: var(--radius-l);
+    background: var(--mint);
+  }
+
+  .testimonials__photo {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    scale: 1.04;
+    transition:
+      opacity 0.6s var(--ease),
+      scale 1.2s var(--ease);
+  }
+
+  .testimonials__photo.is-active {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .testimonials__controls {
+    position: absolute;
+    left: clamp(-2rem, -3vw, -1rem);
+    bottom: 2rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .testimonials__arrow {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      transform 0.2s var(--ease);
+  }
+
+  .testimonials__arrow:hover {
+    background: var(--orange);
+  }
+
+  .testimonials__arrow:active {
+    transform: scale(0.94);
+  }
+
+  @keyframes quote-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .testimonials__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .testimonials__controls {
+      left: 1rem;
+      bottom: 1rem;
+    }
+  }
+</style>

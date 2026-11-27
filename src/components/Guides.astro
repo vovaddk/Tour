@@ -1,0 +1,122 @@
+---
+import { Picture } from 'astro:assets';
+import guidesApp from '../assets/guides-app.png';
+---
+
+<section class="guides" id="guides" aria-labelledby="guides-title">
+  <div class="wrap">
+    <div class="guides__panel">
+      <div class="guides__copy">
+        <h2 id="guides-title">Guides by Thousand Sunny</h2>
+        <p>
+          Packed with tips and advice from our on-the-ground experts, our city guides app (iOS and
+          Android) is the ultimate resource before and during a trip.
+        </p>
+        <button class="btn btn--primary" type="button" popovertarget="app-note">
+          Download
+        </button>
+      </div>
+      <div class="guides__art">
+        <Picture
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          src={guidesApp}
+          alt="Illustrated traveller with a suitcase next to an oversized phone showing a city guide"
+          widths={[300, 450, 599]}
+          sizes="(max-width: 880px) 80vw, 40vw"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="note" id="app-note" popover>
+    <p class="note__title">Guides is in beta</p>
+    <p>
+      The app is being tested with a small group of travellers on iOS and Android. The public
+      release opens on both stores in spring.
+    </p>
+    <button
+      class="btn btn--ghost note__close"
+      type="button"
+      popovertarget="app-note"
+      popovertargetaction="hide"
+    >
+      Got it
+    </button>
+  </div>
+</section>
+
+<style>
+  .guides {
+    padding-block: 0;
+  }
+
+  .guides__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 2rem;
+    overflow: hidden;
+    padding: clamp(2.5rem, 6vw, 5rem);
+    border-radius: var(--radius-l);
+    background: var(--mint);
+    isolation: isolate;
+  }
+
+  .guides__panel::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 46rem;
+    aspect-ratio: 1;
+    right: -14rem;
+    top: 50%;
+    translate: 0 -50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(255 255 255 / 95%), transparent 65%);
+  }
+
+  .guides__copy {
+    max-width: 28rem;
+  }
+
+  .guides__copy h2 {
+    margin-bottom: 1.25rem;
+    font-size: var(--step-3);
+    font-weight: 750;
+  }
+
+  .guides__copy p {
+    margin-bottom: 2rem;
+    color: var(--ink-soft);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .guides__art img {
+    width: min(100%, 500px);
+    margin-inline: auto;
+  }
+
+  .note__title {
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .note__close {
+    margin-top: 1.25rem;
+    min-height: 40px;
+    padding: 0.4rem 1.2rem;
+  }
+
+  @media (max-width: 880px) {
+    .guides__panel {
+      grid-template-columns: 1fr;
+    }
+
+    .guides__art img {
+      width: min(85%, 380px);
+    }
+  }
+</style>

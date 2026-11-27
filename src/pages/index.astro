@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Explore from '../components/Explore.astro';
+import Destinations from '../components/Destinations.astro';
+import Guides from '../components/Guides.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Stories from '../components/Stories.astro';
+import Footer from '../components/Footer.astro';
+
+const site = new URL(import.meta.env.BASE_URL, Astro.site).href;
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TravelAgency',
+  name: 'Thousand Sunny',
+  url: site,
+  logo: `${site}favicon.svg`,
+  description:
+    'Plan and book your perfect trip with expert advice, travel tips and destination information.',
+};
+---
+
+<BaseLayout
+  title="Thousand Sunny — Explore and travel"
+  description="Find your next holiday by location, activity, grade and date. Featured destinations, the Thousand Sunny city guides app and trending travel stories."
+  jsonLd={jsonLd}
+>
+  <Header />
+  <main id="content">
+    <Hero />
+    <Explore />
+    <Destinations />
+    <Guides />
+    <Testimonials />
+    <Stories />
+  </main>
+  <Footer />
+</BaseLayout>

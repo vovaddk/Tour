@@ -1,0 +1,78 @@
+---
+import { Picture } from 'astro:assets';
+import balloon from '../assets/explore-balloon.png';
+---
+
+<section class="explore" id="about" aria-labelledby="explore-title">
+  <div class="wrap explore__inner">
+    <div class="explore__art">
+      <Picture
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        src={balloon}
+        alt="Illustrated explorer hanging from a striped hot-air balloon above a map pin"
+        widths={[330, 500, 659]}
+        sizes="(max-width: 880px) 80vw, 45vw"
+      />
+    </div>
+    <div class="explore__copy">
+      <h2 id="explore-title">A new way to explore the world</h2>
+      <p>
+        For decades travellers have reached for Lonely Planet books when looking to plan and execute
+        their perfect trip, but now, they can also let Lonely Planet Experiences lead the way.
+      </p>
+      <a class="btn btn--ghost explore__cta" href="#destinations">
+        Learn more
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .explore {
+    padding-block: calc(var(--section) / 2) var(--section);
+  }
+
+  .explore__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+  }
+
+  .explore__art img {
+    width: min(100%, 560px);
+  }
+
+  .explore__copy {
+    max-width: 30rem;
+  }
+
+  .explore__copy h2 {
+    margin-bottom: 1.5rem;
+    font-size: var(--step-3);
+    font-weight: 750;
+  }
+
+  .explore__copy p {
+    color: var(--ink-soft);
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+
+  .explore__cta {
+    margin-top: 2rem;
+    color: var(--green-ink);
+  }
+
+  @media (max-width: 880px) {
+    .explore__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .explore__art img {
+      width: min(80%, 420px);
+      margin-inline: auto;
+    }
+  }
+</style>

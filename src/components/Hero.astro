@@ -1,0 +1,100 @@
+---
+import { Picture } from 'astro:assets';
+import heroImage from '../assets/hero-traveller.png';
+import HolidayFinder from './HolidayFinder.astro';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <h1 class="hero__title" id="hero-title">
+        Explore and <span>Travel</span>
+      </h1>
+      <HolidayFinder />
+    </div>
+
+    <div class="hero__art">
+      <div class="hero__halo" aria-hidden="true"></div>
+      <Picture
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        class="hero__image"
+        src={heroImage}
+        alt="Illustrated traveller with a backpack walking past planets, leaves and a map pin"
+        widths={[360, 540, 687]}
+        sizes="(max-width: 880px) 90vw, 46vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(1.5rem, 5vw, 4.5rem) calc(var(--section) / 2);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .hero__title {
+    max-width: 9ch;
+    margin-bottom: clamp(2rem, 4vw, 3.25rem);
+    font-size: var(--step-4);
+    font-weight: 800;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+  }
+
+  .hero__title span {
+    display: block;
+  }
+
+  .hero__art {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .hero__halo {
+    position: absolute;
+    inset: 8% 6%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 45%, var(--mint) 0 55%, transparent 70%);
+  }
+
+  .hero__image {
+    position: relative;
+    width: min(100%, 620px);
+    animation: drift 9s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    50% {
+      transform: translateY(-14px) rotate(-1deg);
+    }
+  }
+
+  @media (max-width: 880px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__art {
+      order: -1;
+    }
+
+    .hero__image {
+      width: min(80%, 420px);
+    }
+
+    .hero__title {
+      max-width: none;
+    }
+  }
+</style>

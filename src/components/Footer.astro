@@ -1,0 +1,177 @@
+---
+import Logo from './Logo.astro';
+import { socialIcons } from '../data/social';
+
+const columns = [
+  { title: 'Destinations', links: ['Africa', 'Antarctica', 'Asia', 'Europe', 'America'] },
+  {
+    title: 'Shop',
+    links: ['Destination Guides', 'Pictorial & Gifts', 'Special Offers', 'Delivery Times', 'FAQs'],
+  },
+  {
+    title: 'Interests',
+    links: [
+      'Adventure Travel',
+      'Art And Culture',
+      'Wildlife And Nature',
+      'Family Holidays',
+      'Food And Drink',
+    ],
+  },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <Logo />
+        <p>
+          Plan and book your perfect trip with expert advice, travel tips and destination
+          information from us.
+        </p>
+      </div>
+
+      {columns.map((col) => (
+        <nav class="footer__col" aria-label={col.title}>
+          <h2>{col.title}</h2>
+          <ul>
+            {col.links.map((label) => (
+              <li>
+                <a href="#top">{label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {year} Thousand Sunny. All rights reserved.</p>
+      <ul class="footer__social">
+        {socialIcons.map((icon) => (
+          <li>
+            <a href="#top" aria-label={icon.name}>
+              <Fragment set:html={icon.svg} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <p class="footer__disclaimer">
+      Practice project — not affiliated with Lonely Planet. Thousand Sunny is a fictional travel
+      brand.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: clamp(3.5rem, 7vw, 5.5rem) 2rem;
+    background: var(--paper-2);
+    border-top: 1px solid var(--line);
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .footer__brand p {
+    max-width: 18rem;
+    margin-top: 1.25rem;
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+  }
+
+  .footer__col h2 {
+    margin-bottom: 1.1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .footer__col ul {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__col a {
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer__col a:hover {
+    color: var(--green-deep);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: var(--step--1);
+  }
+
+  .footer__social {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__social a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: var(--ink);
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  .footer__social a:hover {
+    background: var(--mint);
+    color: var(--green-deep);
+  }
+
+  .footer__social :global(svg) {
+    width: auto;
+    height: 18px;
+  }
+
+  .footer__disclaimer {
+    margin-top: 1.25rem;
+    color: var(--ink-soft);
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 880px) {
+    .footer__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+interface Props {
+  size?: number;
+}
+const { size = 44 } = Astro.props;
+---
+
+<svg
+  class="logo-mark"
+  aria-hidden="true"
+  width={size}
+  height={size}
+  viewBox="0 0 44 44"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle cx="22" cy="22" r="22" fill="#1ABE84"></circle>
+  <circle cx="22" cy="22" r="9.54878" fill="#FB8F1D" stroke="white" stroke-width="3"></circle>
+</svg>

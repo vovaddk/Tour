@@ -1,0 +1,140 @@
+---
+import { Picture } from 'astro:assets';
+import healing from '../assets/healing-holiday.png';
+import kyoto from '../assets/kyoto-food.png';
+import yucatan from '../assets/yucatan-ruins.png';
+import surf from '../assets/beginner-surf.png';
+
+const stories = [
+  {
+    title: 'The many benefits of taking a healing holiday',
+    excerpt: '‘Healing holidays’ are on the rise to help maximise your health and happiness...',
+    image: healing,
+    alt: 'Person meditating on a wooden deck at sunset, framed by palm trees',
+  },
+  {
+    title: 'The best Kyoto restaurant to try Japanese food',
+    excerpt: 'From tofu to teahouses, here’s our guide to Kyoto’s best restaurants to visit...',
+    image: kyoto,
+    alt: 'Bowls of Japanese dishes and a cast-iron teapot on a dark wooden table',
+  },
+  {
+    title: 'Skip Chichen Itza and head to this remote Yucatan',
+    excerpt:
+      'It’s remote and challenging to get, but braving the jungle and exploring these ruins without the...',
+    image: yucatan,
+    alt: 'Weathered stepped Maya pyramid under a cloudy sky',
+  },
+  {
+    title: 'Surf’s up at these beginner spots around the world',
+    excerpt:
+      'If learning to surf has been on your to-do list for a while, the good news is: it’s never too late...',
+    image: surf,
+    alt: 'Surfer riding inside a curling turquoise wave',
+  },
+];
+---
+
+<section class="stories" id="stories" aria-labelledby="stories-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="stories-title">Trending stories</h2>
+      <a class="text-link" href="#stories">
+        View all
+      </a>
+    </div>
+
+    <ul class="stories__grid">
+      {stories.map((story) => (
+        <li>
+          <article class="story">
+            <div class="story__media">
+              <Picture
+                formats={['avif', 'webp']}
+                fallbackFormat="webp"
+                src={story.image}
+                alt={story.alt}
+                widths={[280, 400, 520]}
+                sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 25vw"
+              />
+            </div>
+            <h3>{story.title}</h3>
+            <p>{story.excerpt}</p>
+            <a class="text-link" href="#stories">
+              Read more<span class="visually-hidden">: {story.title}</span>
+            </a>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stories {
+    padding-block: 0 var(--section);
+  }
+
+  .stories__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.5rem, 2.5vw, 2rem);
+    padding: 0;
+    list-style: none;
+  }
+
+  .story {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .story__media {
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius-m);
+    background: var(--mint);
+  }
+
+  .story__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .story h3 {
+    margin-bottom: 0.6rem;
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+
+  .story p {
+    flex: 1;
+    margin-bottom: 1.25rem;
+    color: var(--ink-soft);
+    font-size: 0.975rem;
+  }
+
+  .story .text-link {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 1000px) {
+    .stories__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .stories__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .story__media {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>
